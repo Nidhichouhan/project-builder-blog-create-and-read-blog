@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +25,7 @@ public class UserDAO implements UserDaoInterface {
 			System.out.println(preparedStatement);
 			// Step 3: Execute the query or update query
 			result = preparedStatement.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException | IOException e) {
 			System.out.println(e);
 		}
 		return result;
@@ -36,7 +37,7 @@ public class UserDAO implements UserDaoInterface {
 			Connection connection = ConnectionManager.getConnection();
 		
 				// Step 2:Create a statement using connection object
-		PreparedStatement preparedStatement = connection.prepareStatement("select * from users where email = ? and password = ? ");
+		PreparedStatement preparedStatement = connection.prepareStatement("select * from USERS where EMAIL = ? and PASSWORD = ? ");
 		
 			preparedStatement.setString(1, user.getEmail());
 			preparedStatement.setString(2, user.getPassword());
@@ -45,7 +46,7 @@ public class UserDAO implements UserDaoInterface {
 			ResultSet rs = preparedStatement.executeQuery();
 			status = rs.next();
 
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException | IOException e) {
 			// process sql exception
 			System.out.println(e);
 		}
